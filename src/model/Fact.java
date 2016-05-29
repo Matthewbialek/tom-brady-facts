@@ -26,6 +26,12 @@ public class Fact {
 		this.fact = fact;
 		this.fandom = fandom;
 	}
+	
+	public Fact(long id, String fact, String fandom){
+		this.fact = fact;
+		this.fandom = fandom;
+		this.id=id;
+	}
 
 	public Long getId() {
 		return id;

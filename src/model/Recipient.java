@@ -31,6 +31,13 @@ public class Recipient {
 		this.number = number;
 		this.facts = new HashSet<Fact>();
 	}
+	
+	public Recipient(long id, String number, String fandom) {
+		this.fandom = fandom;
+		this.number = number;
+		this.facts = new HashSet<Fact>();
+		this.id = id;
+	}
 
 	public void addRecievedFact(Fact fact) {
 		this.facts.add(fact);
