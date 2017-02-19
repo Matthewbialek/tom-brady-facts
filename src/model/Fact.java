@@ -7,19 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "fact")
+
 public class Fact {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+
 	private Long id;
-	
-	@Column(name = "fact")
+
 	public final String fact;
-	
-	@Column(name = "fandom")
+
 	public final String fandom;
 	
 	public Fact(String fact, String fandom){
@@ -44,9 +39,26 @@ public class Fact {
 	public String getFandom() {
 		return fandom;
 	}
-	
-	
-	
-	
 
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Fact)) return false;
+
+		Fact fact1 = (Fact) o;
+
+		if (!id.equals(fact1.id)) return false;
+		if (!fact.equals(fact1.fact)) return false;
+		return fandom.equals(fact1.fandom);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id.hashCode();
+		result = 31 * result + fact.hashCode();
+		result = 31 * result + fandom.hashCode();
+		return result;
+	}
 }

@@ -33,10 +33,7 @@ public class ResourceLoader {
 
 		try {
 			List<String> lines = Files.readAllLines(this.factFile);
-			for (String line : lines) {
-				factSet.add(new Fact(id, line, "NFL"));
-				id++;
-			}
+			lines.stream().map(line -> line.split("/+")).forEach(array ->this.factSet.add(new Fact(this.factSet.size()+1,array[0],array[1])));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

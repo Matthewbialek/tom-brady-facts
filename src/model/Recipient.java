@@ -10,27 +10,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "appointments")
+
 public class Recipient {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+
 	private Long id;
 
-	@Column(name = "number")
+
 	private final String number;
 
-	@Column(name = "fandom")
 	private final String fandom;
 	private Set<Fact> facts;
 
-	public Recipient(String number, String fandom) {
-		this.fandom = fandom;
-		this.number = number;
-		this.facts = new HashSet<Fact>();
-	}
+
 	
 	public Recipient(long id, String number, String fandom) {
 		this.fandom = fandom;
@@ -60,4 +52,26 @@ public class Recipient {
 		
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Recipient)) return false;
+
+		Recipient recipient = (Recipient) o;
+
+		if (!id.equals(recipient.id)) return false;
+		if (!number.equals(recipient.number)) return false;
+		if (!fandom.equals(recipient.fandom)) return false;
+		return facts.equals(recipient.facts);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id.hashCode();
+		result = 31 * result + number.hashCode();
+		result = 31 * result + fandom.hashCode();
+		result = 31 * result + facts.hashCode();
+		return result;
+	}
 }
