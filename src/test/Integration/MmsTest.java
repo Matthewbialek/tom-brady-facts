@@ -16,10 +16,7 @@ import java.nio.file.Paths;
  */
 public class MmsTest {
 
-    String accountID = "ACd6a56aea5650249412c4920325d6c091";
-    String authToken = "815d36e83a550445d1a575364d70ecbe";
-    PhoneNumber fromNumber = new PhoneNumber("+19786753378");
-    PhoneNumber toNumber = new PhoneNumber("+19782902002");
+
     private ResourceLoader test;
 
 
