@@ -18,11 +18,16 @@ public class MmsTest {
 
 
     private ResourceLoader test;
+    private String accountID;
+    private String authToken;
+    private PhoneNumber fromNumber;
+    private PhoneNumber toNumber;
 
 
     @Before
     public void setupTest(){
         test = new ResourceLoader(Paths.get("/Users/mattbialek/git/tom-brady-facts/src/main/resource/facts.txt"), Paths.get("/Users/mattbialek/git/tom-brady-facts/src/main/resource/recipient.txt"));
+
         Twilio.init(accountID, authToken);
     }
 
