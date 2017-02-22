@@ -1,4 +1,4 @@
-package config;
+package main.config;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,8 +6,8 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import model.Fact;
-import model.Recipient;
+import main.model.Fact;
+import main.model.Recipient;
 
 public class ResourceLoader {
 	private Path recipFile;
@@ -20,10 +20,11 @@ public class ResourceLoader {
 		this.recipFile = recipFile;
 		this.factSet = new HashSet<Fact>();
 		this.recipSet = new HashSet<Recipient>();
+        init();
 	}
 	
 	
-	public void init(){
+	private void init(){
 		loadFacts();
 		loadRecip();
 	}
@@ -33,7 +34,7 @@ public class ResourceLoader {
 
 		try {
 			List<String> lines = Files.readAllLines(this.factFile);
-			lines.stream().map(line -> line.split("/+")).forEach(array ->this.factSet.add(new Fact(this.factSet.size()+1,array[0],array[1])));
+			lines.stream().map(line -> line.split("/+")).forEach(array ->this.factSet.add(new Fact(this.factSet.size()+1,array[0])));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -45,10 +46,8 @@ public class ResourceLoader {
 
 		try {
 			List<String> lines = Files.readAllLines(recipFile);
-			for (String line : lines) {
-				recipSet.add(new Recipient(id, line, "NFL"));
-				id++;
-			}
+
+            lines.stream().map(line -> line.split("/+")).forEach(array ->this.recipSet.add(new Recipient(this.recipSet.size()+1,array[0])));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
