@@ -1,4 +1,4 @@
-package test.Integration;
+package test.java.Integration;
 
 /**
  * Created by mattbialek on 2/22/17.

@@ -1,0 +1,9 @@
+application:
+  build: .
+  ports:
+  - '8080'
+
+database:
+  image: mysql
+  ports:
+  - '3306'
