@@ -4,11 +4,12 @@ application:
   - '8080'
 
 database:
-  image: mysql
+  image: brady-db:latest
   ports:
      - "3306:3306"
   restart: always
   environment:
+    MYSQL_DATABASE: "facts"
     MYSQL_ROOT_PASSWORD: 'pass'
     MYSQL_DATABASE: 'db'
     MYSQL_USER: 'user'
