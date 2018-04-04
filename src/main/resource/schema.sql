@@ -11,7 +11,8 @@ CREATE TABLE `phone_number` (
 DROP TABLE IF EXISTS `facts`;
 CREATE TABLE `facts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fact` varchar(45) NOT NULL,
+  `fact` varchar(245) NOT NULL,
+  `state` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `fact_UNIQUE` (`fact`)
