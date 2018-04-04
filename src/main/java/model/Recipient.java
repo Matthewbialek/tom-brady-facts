@@ -1,89 +1,62 @@
 package main.java.model;
 
-import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashSet;
+import javax.persistence.*;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 
+@Entity
+@Table(name = "recipient")
 public class Recipient {
 
 
-    private final PhoneNumber number;
-    private final Long id;
-    private final Set<Fact> facts;
+    private String number;
+    @Transient
+    private PhoneNumber phoneNumber;
 
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private ZonedDateTime createdAt;
 
-    public Recipient(long id, String number) {
-        this.number = new PhoneNumber(number);
-        this.facts = new HashSet<Fact>();
-        this.id = id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private Set<Fact> facts;
+
+    public Recipient() {
     }
 
-    public void addRecievedFact(Fact fact) {
-        this.facts.add(fact);
-    }
-
-    public PhoneNumber getNumber() {
+    public String getNumber() {
         return this.number;
     }
 
-    public Set<Fact> getFacts() {
-        return this.facts;
+    public void setNumber(String number) {
+        this.number = number;
+        this.phoneNumber = new PhoneNumber(number);
     }
 
-    public long getId() {
-        return this.id;
-
+    public Long getId() {
+        return id;
     }
 
-    public boolean sendSmsMessage(Fact fact, PhoneNumber fromNumber) {
-        Message message = null;
-        if (!this.facts.contains(fact)) {
-            message = Message
-                    .creator(this.getNumber(),  // to
-                            fromNumber,  // from
-                            fact.getFact())
-                    .create();
-            this.getFacts().add(fact);
-        }
-        return true;
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 
-
-    public void sendMmsMessage(Fact fact, PhoneNumber fromNumber, URI mediaURL) throws URISyntaxException {
-
-        if (mediaURL != null) {
-            Message message = Message
-                    .creator(this.getNumber(),  // to
-                            fromNumber,  // from
-                            fact.getFact())
-                    .setMediaUrl(mediaURL)
-                    .create();
-        }
+    public void getCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Recipient)) return false;
+    public PhoneNumber getPhoneNumber() {
 
-        Recipient recipient = (Recipient) o;
-
-        if (!this.id.equals(recipient.id)) return false;
-        if (!this.number.equals(recipient.number)) return false;
-        return this.facts.equals(recipient.facts);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = this.id.hashCode();
-        result = 31 * result + this.number.hashCode();
-        result = 31 * result + this.facts.hashCode();
-        return result;
+        if (phoneNumber == null)
+            phoneNumber = new PhoneNumber(number);
+        return phoneNumber;
     }
 }

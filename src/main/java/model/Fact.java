@@ -1,42 +1,73 @@
 package main.java.model;
 
+import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.*;
+import java.time.Instant;
+
+@Entity
+@Table(name = "fact")
 public class Fact {
 
 
-    public final String fact;
-    private final Long id;
+    public enum FactState {
+        ACTIVE("active"),
+        SUGGESTED("suggested");
 
 
-    public Fact(long id, String fact) {
-        this.fact = fact;
-        this.id = id;
+        private final String state;
+
+        FactState(String state) {
+            this.state = state;
+        }
+
+        public String getState() {
+            return state;
+        }
+
     }
 
-    public Long getId() {
-        return this.id;
+    private String fact;
+
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private Instant createdAt;
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state")
+    private FactState state;
+
+    public Fact() {
+
     }
 
     public String getFact() {
         return this.fact;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Fact)) return false;
 
-        Fact fact1 = (Fact) o;
-
-        if (!this.id.equals(fact1.id)) return false;
-        return this.fact.equals(fact1.fact);
-
+    public void setFact(String fact) {
+        this.fact = fact;
     }
 
-    @Override
-    public int hashCode() {
-        int result = this.id.hashCode();
-        result = 31 * result + this.fact.hashCode();
-        return result;
+    public FactState getState() {
+        return state;
+    }
+
+    public void setState(FactState state) {
+        this.state = state;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

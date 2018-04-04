@@ -1,10 +1,10 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>TomBradyFacts</groupId>
-    <artifactId>TomBradyFacts</artifactId>
+    <groupId>tom-brady-facts</groupId>
+    <artifactId>tom-brady-facts</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Tom Brady Facts</name>
+    <name>tom-brady-facts</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -42,12 +42,17 @@
                     <repository>tombradyfacts</repository>
                     <tag>latest</tag>
                     <buildArgs>
-                        <JAR_FILE>brady.jar</JAR_FILE>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
                 </configuration>
             </plugin>
 
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resource</directory>
+            </resource>
+        </resources>
     </build>
 
     <dependencies>
@@ -66,11 +71,7 @@
             <artifactId>twilio</artifactId>
             <version>(7.0,7.9)</version>
         </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa</artifactId>
-            <version>2.6.0</version>
-        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -80,7 +81,10 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.spotify</groupId>
             <artifactId>docker-client</artifactId>
