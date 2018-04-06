@@ -1,14 +1,15 @@
 version: '3'
 services:
 
-#  application:
-#    image: tombradyfacts:latest
-#    ports:
-#    - '8080'
-#    depends_on:
-#    - database
+  application:
+    image: tombradyfacts:latest
+    ports:
+    - '8080:8080'
+    depends_on:
+    - db
 
-  database:
+
+  db:
     image: brady-db:latest
     ports:
        - "3306:3306"
