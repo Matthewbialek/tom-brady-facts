@@ -1,8 +1,7 @@
 package main.java.resources;
 
-import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
-import main.java.config.TwillioConfig;
+import main.java.controller.MessageScheduling;
 import main.java.model.Fact;
 import main.java.model.Recipient;
 import main.java.repository.RecipientRepository;
@@ -21,11 +20,18 @@ import java.net.URISyntaxException;
 @RestController
 @RequestMapping("/message")
 public class MessageResource {
+    private static Fact firstFact;
+
+    static {
+        firstFact = new Fact();
+        firstFact.setFact("Welcome to Tom Brady Facts your source for information about the GOAT");
+    }
+
     @Autowired
     RecipientRepository recipientRepository;
 
     @Autowired
-    TwillioConfig twillioConfig;
+    MessageScheduling messaging;
 
     @PostMapping
     public ResponseEntity sendSmsMessage(@RequestBody String number) {
@@ -40,13 +46,7 @@ public class MessageResource {
             recipient.setNumber(number);
             recipient = recipientRepository.save(recipient);
         }
-
-        Message message = Message
-                .creator(recipient.getPhoneNumber(),  // to
-                        twillioConfig.getPhoneNumber(),  // from
-                        "Welcome to Tom Brady Facts")
-                .create();
-
+        messaging.sendMessage(recipient, MessageResource.firstFact);
 
         return new ResponseEntity(HttpStatus.OK);
     }

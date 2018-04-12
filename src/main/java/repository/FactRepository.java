@@ -24,4 +24,7 @@ public interface FactRepository extends CrudRepository<Fact, Long> {
     @Transactional
     @Query("update Fact u set u.state = ?2 where u.id = ?1")
     int updateStateFact(Long id, Fact.FactState factState);
+
+    @Query("SELECT u FROM Fact u order by function('RAND')")
+    Fact getRandomFact();
 }

@@ -10,7 +10,7 @@ services:
 
 
   db:
-    image: brady-db:latest
+    image: mysql
     ports:
        - "3306:3306"
     restart: always
