@@ -1,5 +1,6 @@
 package main.java.controller;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Streams;
 import com.twilio.rest.api.v2010.account.Message;
 import main.java.config.TwillioConfig;
@@ -31,12 +32,19 @@ public class MessageScheduling {
     }
 
 
-    public void sendMessage(Recipient recipient, Fact fact) {
+    private Message sendMessage(Recipient recipient, Fact fact) {
 
-        Message message = Message
+        return Message
                 .creator(recipient.getPhoneNumber(),  // to
                         twillioConfig.getPhoneNumber(),  // from
                         fact.getFact())
                 .create();
     }
+
+    public boolean sendMessageToRecpient(Recipient recipient, Fact fact) {
+        Message message = sendMessage(recipient, fact);
+        return !(message.getErrorCode() != null || Strings.isNullOrEmpty(message.getErrorMessage()));
+    }
 }
+
+

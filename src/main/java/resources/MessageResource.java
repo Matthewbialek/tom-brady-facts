@@ -4,6 +4,7 @@ import com.twilio.type.PhoneNumber;
 import main.java.controller.MessageScheduling;
 import main.java.model.Fact;
 import main.java.model.Recipient;
+import main.java.repository.FactRepository;
 import main.java.repository.RecipientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 
@@ -31,6 +31,9 @@ public class MessageResource {
     RecipientRepository recipientRepository;
 
     @Autowired
+    FactRepository factRepository;
+
+    @Autowired
     MessageScheduling messaging;
 
     @PostMapping
@@ -46,21 +49,27 @@ public class MessageResource {
             recipient.setNumber(number);
             recipient = recipientRepository.save(recipient);
         }
-        messaging.sendMessage(recipient, MessageResource.firstFact);
+        messaging.sendMessageToRecpient(recipient, MessageResource.firstFact);
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PostMapping("/test")
+    public ResponseEntity sendMmsMessageTest(@RequestBody String number) throws URISyntaxException {
 
-    public void sendMmsMessage(Fact fact, PhoneNumber fromNumber, URI mediaURL) throws URISyntaxException {
+        PhoneNumber phoneNumber = new PhoneNumber(number);
+        if (phoneNumber == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-//        if (mediaURL != null) {
-//            Message message = Message
-//                    .creator(this.getNumber(),  // to
-//                            fromNumber,  // from
-//                            fact.getFact())
-//                    .setMediaUrl(mediaURL)
-//                    .create();
-//        }
+        Recipient recipient = recipientRepository.findRecipientByNumber(number);
+        if (recipient == null) {
+            recipient = new Recipient();
+            recipient.setNumber(number);
+            recipient = recipientRepository.save(recipient);
+        }
+        messaging.sendMessageToRecpient(recipient, factRepository.getRandomFact());
+
+        return new ResponseEntity(HttpStatus.OK);
     }
+
 }
