@@ -6,7 +6,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -17,11 +20,18 @@ import javax.sql.DataSource;
 @ComponentScan
 @EnableJpaRepositories
 @EnableAutoConfiguration
+@PropertySource("classpath:application.properties")
 @EnableScheduling
 public class TomBradyFacts extends SpringBootServletInitializer {
 
     @Autowired
     DataSource dataSource;
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
+
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub

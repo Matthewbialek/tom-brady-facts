@@ -21,10 +21,10 @@ import java.net.URISyntaxException;
 @RequestMapping("/message")
 public class MessageResource {
     private static Fact firstFact;
-
+    
     static {
         firstFact = new Fact();
-        firstFact.setFact("Welcome to Tom Brady Facts your source for information about the GOAT");
+        firstFact.setFact("Welcome to Tom Brady Facts, your source for information about the GOAT");
     }
 
     @Autowired

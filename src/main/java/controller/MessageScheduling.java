@@ -27,11 +27,13 @@ public class MessageScheduling {
     @Scheduled(cron = "0 0 12 * * *")
     public void sendMessages() {
         Fact fact = factRepository.getRandomFact();
-        Iterable<Recipient> recipients = recipientRepository.findAll();
-        Streams.stream(recipients.iterator()).forEach(recipient -> sendMessage(recipient, fact));
+        if (fact != null) {
+            System.out.println("HADOUKEN " + fact.getFact());
+            Iterable<Recipient> recipients = recipientRepository.findAll();
+            Streams.stream(recipients.iterator()).forEach(recipient -> sendMessage(recipient, fact));
+        }
     }
-
-
+    
     private Message sendMessage(Recipient recipient, Fact fact) {
 
         return Message
